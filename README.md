@@ -1,0 +1,68 @@
+# Daily Ghost Race
+
+A minimalist top-down drift racer. Every day, every player gets the same
+procedurally generated track. A run is 3 laps; race the clock and the ghosts
+of your earlier runs.
+
+## Run it
+
+```sh
+npm install
+npm run dev        # http://localhost:5173 (also exposed on your LAN for phones)
+npm test           # unit tests (rng, track generation, checkpoints, physics)
+npm run typecheck  # tsc --noEmit
+npm run build      # production build in dist/
+```
+
+Add `?seed=anything` to the URL to try a different track.
+
+## Controls
+
+| Action  | Desktop            | Touch                         |
+| ------- | ------------------ | ----------------------------- |
+| Steer   | ← → or A / D       | touch left / right half       |
+| Restart | R                  | ↻ button                      |
+
+The car accelerates by itself. The timer starts on your first steer input.
+
+## File structure
+
+```
+index.html              canvas + HUD container
+src/main.ts             entry point: wires input, simulation and rendering
+src/config.ts           every tunable constant (speed, grip, track size, colours)
+src/style.css           page and HUD styles
+src/core/rng.ts         string hash + seeded PRNG (integer maths, engine independent)
+src/core/loop.ts        fixed-timestep accumulator loop
+src/core/input.ts       keyboard + touch → steer state, restart event
+src/track/types.ts      Vec2, Gate, Track
+src/track/geometry.ts   vector helpers, point-to-loop distance, segment crossing
+src/track/spline.ts     closed Catmull-Rom sampling and arc-length re-sampling
+src/track/validate.ts   rejects tight corners and self-overlapping loops
+src/track/checkpoints.ts gate placement and in-order lap counting
+src/track/generate.ts   seed → Track
+src/car/state.ts        CarState, Pose, interpolation
+src/car/physics.ts      drift physics step (auto-accelerate, steer, grip, off-track)
+src/race/run.ts         one attempt: car + laps + tick timer (pure simulation)
+src/race/session.ts     owns the current run; restart
+src/render/camera.ts    fit-the-track camera
+src/render/track.ts     track, gates, start line
+src/render/car.ts       car / ghost arrow
+src/render/scene.ts     canvas setup and frame drawing
+src/ui/format.ts        time formatting
+src/ui/hud.ts           DOM overlay: timer, lap, hint, restart button
+src/ghost/              (milestone 2) recorder, playback, storage
+src/net/                (milestone 4) API client
+tests/                  vitest unit tests
+```
+
+Simulation code (`core/rng`, `track/*`, `car/*`, `race/*`) never touches the
+canvas or the DOM. Run time is counted in simulation ticks, so frame rate
+cannot change a result.
+
+## Milestones
+
+1. ✅ Car, one generated track, lap timer.
+2. Daily seed, local best ghost, instant restart, results screen.
+3. Streak, share button, countdown, polished touch controls.
+4. Online leaderboard and ghosts (Node + SQLite server in `/server`).

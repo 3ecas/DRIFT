@@ -1,0 +1,83 @@
+:root {
+  --bg: #0b0e13;
+  --text: #e8edf2;
+  --accent: #ffb020;
+  --font: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+#game {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  touch-action: none;
+}
+
+#hud {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  padding: max(16px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right))
+    max(16px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+}
+
+.hud-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.hud-time {
+  font-size: clamp(28px, 6vw, 44px);
+  font-variant-numeric: tabular-nums;
+  color: var(--accent);
+}
+
+.hud-lap {
+  font-size: clamp(14px, 3vw, 20px);
+  letter-spacing: 0.1em;
+  opacity: 0.8;
+}
+
+.hud-hint {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: max(24px, env(safe-area-inset-bottom));
+  text-align: center;
+  font-size: 14px;
+  opacity: 0.6;
+}
+
+.hud-restart {
+  position: absolute;
+  right: max(16px, env(safe-area-inset-right));
+  bottom: max(16px, env(safe-area-inset-bottom));
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid rgba(232, 237, 242, 0.35);
+  background: rgba(11, 14, 19, 0.7);
+  color: var(--text);
+  font: 22px var(--font);
+  cursor: pointer;
+  pointer-events: auto;
+  touch-action: manipulation;
+}
+
+.hud-restart:active { background: var(--accent); color: var(--bg); }
