@@ -1,7 +1,7 @@
 /** Persists the best run per daily seed in localStorage. */
-import { STORAGE } from '../config'
-import { readJson, writeJson, type KeyValueStore } from '../core/storage'
-import type { GhostRun } from './types'
+import { STORAGE } from '../config.ts'
+import { readJson, writeJson, type KeyValueStore } from '../core/storage.ts'
+import type { GhostRun } from './types.ts'
 
 const bestKey = (seed: string): string => `${STORAGE.PREFIX}.best.${seed}`
 

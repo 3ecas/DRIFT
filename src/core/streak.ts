@@ -1,7 +1,7 @@
 /** Daily streak: consecutive UTC days with at least one finished run. */
-import { STORAGE } from '../config'
-import { previousUtcDate } from './daily'
-import { readJson, writeJson, type KeyValueStore } from './storage'
+import { STORAGE } from '../config.ts'
+import { previousUtcDate } from './daily.ts'
+import { readJson, writeJson, type KeyValueStore } from './storage.ts'
 
 export interface Streak {
   /** Last UTC date (YYYY-MM-DD) a run was finished on. */

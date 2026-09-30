@@ -1,5 +1,5 @@
 /** Small 2D vector helpers. Only +, -, ×, ÷ and sqrt: deterministic everywhere. */
-import type { Bounds, Vec2 } from './types'
+import type { Bounds, Vec2 } from './types.ts'
 
 export const vec = (x: number, y: number): Vec2 => ({ x, y })
 export const sub = (a: Vec2, b: Vec2): Vec2 => ({ x: a.x - b.x, y: a.y - b.y })

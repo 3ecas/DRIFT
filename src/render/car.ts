@@ -1,6 +1,6 @@
 /** Draws a car (or ghost) as a small arrow head pointing along its heading. */
-import { CAR } from '../config'
-import type { Pose } from '../car/state'
+import { CAR } from '../config.ts'
+import type { Pose } from '../car/state.ts'
 
 export function drawCar(ctx: CanvasRenderingContext2D, pose: Pose, color: string, alpha = 1): void {
   const l = CAR.LENGTH / 2

@@ -1,6 +1,6 @@
 /** Checkpoint gates and in-order lap counting. */
-import type { Gate, Vec2 } from './types'
-import { dot, normalize, perp, segmentCrossing, sub } from './geometry'
+import type { Gate, Vec2 } from './types.ts'
+import { dot, normalize, perp, segmentCrossing, sub } from './geometry.ts'
 
 /** Evenly spaced gates along the loop. Gate 0 is the start/finish line. */
 export function buildGates(points: Vec2[], count: number, halfWidth: number): Gate[] {

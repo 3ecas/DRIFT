@@ -1,6 +1,6 @@
 /** DOM overlay: timer, lap counter, hint text, restart button and touch zones. */
-import { formatTime } from './format'
-import type { Phase } from '../race/run'
+import { formatTime } from './format.ts'
+import type { Phase } from '../race/run.ts'
 
 export interface HudView {
   timeMs: number

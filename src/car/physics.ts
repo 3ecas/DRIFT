@@ -3,8 +3,8 @@
  * the only input is steer ∈ {-1, 0, 1}. Velocity follows the heading with a
  * lag (grip), which is what makes the car slide through corners.
  */
-import { CAR } from '../config'
-import { speedOf, wrapAngle, type CarState } from './state'
+import { CAR } from '../config.ts'
+import { speedOf, wrapAngle, type CarState } from './state.ts'
 
 export function stepCar(car: CarState, steer: number, onTrack: boolean, dt: number): void {
   // Steering authority grows with speed so the car can't spin on the spot.

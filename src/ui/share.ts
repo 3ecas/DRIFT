@@ -1,5 +1,5 @@
 /** Short text result for the clipboard. */
-import { formatTime } from './format'
+import { formatTime } from './format.ts'
 
 export interface ShareView {
   seed: string

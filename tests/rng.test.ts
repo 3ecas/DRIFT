@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { createRng, hashString } from '../src/core/rng'
+import { createRng, hashString } from '../src/core/rng.ts'
 
 describe('seeded rng', () => {
   it('gives the same sequence for the same seed', () => {

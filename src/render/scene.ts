@@ -1,15 +1,15 @@
 /** Canvas setup and per-frame drawing. Draws what it is given; no game logic. */
-import { COLORS, RENDER } from '../config'
-import type { Pose } from '../car/state'
-import type { Track } from '../track/types'
-import { fitCamera, type Camera } from './camera'
-import { drawTrack } from './track'
-import { drawCar } from './car'
+import { COLORS, RENDER } from '../config.ts'
+import type { Pose } from '../car/state.ts'
+import type { Track } from '../track/types.ts'
+import { fitCamera, type Camera } from './camera.ts'
+import { drawTrack } from './track.ts'
+import { drawCar } from './car.ts'
 
 export interface Frame {
   car: Pose
   onTrack: boolean
-  ghosts: Pose[]
+  ghosts: { pose: Pose; color: string }[]
 }
 
 export class Scene {
@@ -50,7 +50,7 @@ export class Scene {
     const s = camera.scale * dpr
     ctx.setTransform(s, 0, 0, s, camera.offsetX * dpr, camera.offsetY * dpr)
     drawTrack(ctx, this.track)
-    for (const ghost of frame.ghosts) drawCar(ctx, ghost, COLORS.ACCENT, COLORS.GHOST_ALPHA)
+    for (const g of frame.ghosts) drawCar(ctx, g.pose, g.color, COLORS.GHOST_ALPHA)
     drawCar(ctx, frame.car, COLORS.ACCENT, frame.onTrack ? 1 : 0.6)
   }
 }

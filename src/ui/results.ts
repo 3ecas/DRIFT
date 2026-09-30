@@ -1,5 +1,5 @@
 /** End-of-run overlay: time, gap to the ghost, best today, streak, share, countdown. */
-import { formatCountdown, formatTime } from './format'
+import { formatCountdown, formatTime } from './format.ts'
 
 export interface ResultsView {
   timeMs: number
@@ -11,6 +11,8 @@ export interface ResultsView {
 }
 
 export class Results {
+  /** The panel element; extra sections (leaderboard) are appended here. */
+  readonly element: HTMLElement
   private readonly root: HTMLElement
   private readonly time: HTMLElement
   private readonly best: HTMLElement
@@ -22,6 +24,7 @@ export class Results {
 
   constructor(parent: HTMLElement, onRestart: () => void, onShare: () => Promise<boolean>) {
     this.root = document.createElement('div')
+    this.element = this.root
     this.root.className = 'results'
     this.root.hidden = true
     this.root.innerHTML = `

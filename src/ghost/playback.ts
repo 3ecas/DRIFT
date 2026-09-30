@@ -1,6 +1,6 @@
 /** Interpolated ghost pose at any (fractional) tick. Ghosts have no collision. */
-import { lerpPose, type Pose } from '../car/state'
-import type { GhostRun } from './types'
+import { lerpPose, type Pose } from '../car/state.ts'
+import type { GhostRun } from './types.ts'
 
 export function ghostPose(ghost: GhostRun, tick: number): Pose | null {
   const count = ghost.frames.length / 3

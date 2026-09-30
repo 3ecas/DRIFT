@@ -1,18 +1,23 @@
 /**
- * Owns the current run, records it as a ghost and plays the ghost to beat.
- * Pure simulation: no DOM. Persistence happens in main.ts.
+ * Owns the current run, records it as a ghost and plays the ghosts to beat.
+ * Pure simulation: no DOM. Persistence and networking happen in main.ts.
  */
-import type { Pose } from '../car/state'
-import type { Track } from '../track/types'
-import { GhostRecorder } from '../ghost/recorder'
-import { ghostPose } from '../ghost/playback'
-import type { GhostRun } from '../ghost/types'
-import { createRun, stepRun, type Run } from './run'
+import type { Pose } from '../car/state.ts'
+import type { Track } from '../track/types.ts'
+import { GhostRecorder } from '../ghost/recorder.ts'
+import { ghostPose } from '../ghost/playback.ts'
+import type { GhostRun } from '../ghost/types.ts'
+import { createRun, stepRun, type Run } from './run.ts'
+
+export interface RacingGhost {
+  run: GhostRun
+  color: string
+}
 
 export class Session {
   run: Run
-  /** The ghost being raced, if any. */
-  ghost: GhostRun | null = null
+  /** Ghosts being raced: the local best and any fetched from the leaderboard. */
+  ghosts: RacingGhost[] = []
   private readonly recorder = new GhostRecorder()
 
   constructor(readonly track: Track) {
@@ -36,10 +41,15 @@ export class Session {
     return phase === 'finished' ? this.recorder.toRun(this.track.seed, run.finishTicks) : null
   }
 
-  /** Ghost pose for rendering; `alpha` is the fraction of the next tick. */
-  ghostPose(alpha: number): Pose | null {
-    if (!this.ghost || this.run.phase === 'ready') return null
+  /** Ghost poses for rendering; `alpha` is the fraction of the next tick. */
+  ghostPoses(alpha: number): { pose: Pose; color: string }[] {
+    if (this.run.phase === 'ready') return []
     const tick = this.run.phase === 'finished' ? this.run.finishTicks : this.run.ticks + alpha
-    return ghostPose(this.ghost, tick)
+    const out: { pose: Pose; color: string }[] = []
+    for (const g of this.ghosts) {
+      const pose = ghostPose(g.run, tick)
+      if (pose) out.push({ pose, color: g.color })
+    }
+    return out
   }
 }

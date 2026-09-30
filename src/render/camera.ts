@@ -1,5 +1,5 @@
 /** World → screen mapping that fits the whole track into the viewport. */
-import type { Bounds } from '../track/types'
+import type { Bounds } from '../track/types.ts'
 
 export interface Camera {
   scale: number

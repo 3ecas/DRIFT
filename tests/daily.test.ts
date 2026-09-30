@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest'
-import { msUntilNextUtcDay, previousUtcDate, utcDateSeed } from '../src/core/daily'
-import { advanceStreak, currentStreak, loadStreak, saveStreak } from '../src/core/streak'
-import { formatCountdown } from '../src/ui/format'
-import { shareText } from '../src/ui/share'
-import type { KeyValueStore } from '../src/core/storage'
+import { msUntilNextUtcDay, previousUtcDate, utcDateSeed } from '../src/core/daily.ts'
+import { advanceStreak, currentStreak, loadStreak, saveStreak } from '../src/core/streak.ts'
+import { formatCountdown } from '../src/ui/format.ts'
+import { shareText } from '../src/ui/share.ts'
+import type { KeyValueStore } from '../src/core/storage.ts'
 
 describe('daily dates', () => {
   it('is the UTC date', () => {

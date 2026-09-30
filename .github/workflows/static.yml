@@ -38,6 +38,9 @@ jobs:
         env:
           # Serve from https://<owner>.github.io/<repo>/
           VITE_BASE: /${{ github.event.repository.name }}/
+          # Repository variable API_URL (Settings → Variables) points the game at a
+          # hosted /server instance. Leave it unset for offline mode.
+          VITE_API_URL: ${{ vars.API_URL }}
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact

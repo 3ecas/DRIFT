@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest'
-import { CAR, DT } from '../src/config'
-import { stepCar } from '../src/car/physics'
-import { createCar, speedOf } from '../src/car/state'
-import { createRun, runTimeMs, stepRun } from '../src/race/run'
-import { generateTrack } from '../src/track/generate'
+import { CAR, DT } from '../src/config.ts'
+import { stepCar } from '../src/car/physics.ts'
+import { createCar, speedOf } from '../src/car/state.ts'
+import { createRun, runTimeMs, stepRun } from '../src/race/run.ts'
+import { generateTrack } from '../src/track/generate.ts'
 
 describe('car physics', () => {
   it('is deterministic for the same inputs', () => {

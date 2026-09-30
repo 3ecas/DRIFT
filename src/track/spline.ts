@@ -1,6 +1,6 @@
 /** Closed Catmull-Rom spline sampling and arc-length re-sampling. */
-import type { Vec2 } from './types'
-import { distance } from './geometry'
+import type { Vec2 } from './types.ts'
+import { distance } from './geometry.ts'
 
 /** Samples a closed uniform Catmull-Rom spline through the control points. */
 export function catmullRomLoop(ctrl: Vec2[], samplesPerSegment: number): Vec2[] {

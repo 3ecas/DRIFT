@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest'
-import { GhostRecorder } from '../src/ghost/recorder'
-import { ghostPose } from '../src/ghost/playback'
-import { loadBest, saveIfBest } from '../src/ghost/storage'
-import type { KeyValueStore } from '../src/core/storage'
-import type { GhostRun } from '../src/ghost/types'
+import { GhostRecorder } from '../src/ghost/recorder.ts'
+import { ghostPose } from '../src/ghost/playback.ts'
+import { loadBest, saveIfBest } from '../src/ghost/storage.ts'
+import type { KeyValueStore } from '../src/core/storage.ts'
+import type { GhostRun } from '../src/ghost/types.ts'
 
 const fakeStore = (): KeyValueStore => {
   const map = new Map<string, string>()

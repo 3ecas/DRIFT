@@ -1,7 +1,7 @@
 /** Samples the car's pose every few ticks while a run is in progress. */
-import { GHOST } from '../config'
-import type { Pose } from '../car/state'
-import type { GhostRun } from './types'
+import { GHOST } from '../config.ts'
+import type { Pose } from '../car/state.ts'
+import type { GhostRun } from './types.ts'
 
 export class GhostRecorder {
   private frames: number[] = []

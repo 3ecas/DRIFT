@@ -1,7 +1,7 @@
 /** Rejects centrelines that overlap themselves or bend too tightly. */
-import { TRACK } from '../config'
-import type { Vec2 } from './types'
-import { distance } from './geometry'
+import { TRACK } from '../config.ts'
+import type { Vec2 } from './types.ts'
+import { distance } from './geometry.ts'
 
 /** Returns null for a usable loop, otherwise the reason it was rejected. */
 export function validateLoop(points: Vec2[], width: number, spacing: number): string | null {

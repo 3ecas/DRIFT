@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest'
-import { TRACK } from '../src/config'
-import { generateTrack } from '../src/track/generate'
-import { validateLoop } from '../src/track/validate'
-import { distance } from '../src/track/geometry'
+import { TRACK } from '../src/config.ts'
+import { generateTrack } from '../src/track/generate.ts'
+import { validateLoop } from '../src/track/validate.ts'
+import { distance } from '../src/track/geometry.ts'
 
 describe('track generation', () => {
   it('is deterministic for a seed', () => {

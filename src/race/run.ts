@@ -2,12 +2,12 @@
  * One attempt at the track: car + lap progress + tick counter.
  * Pure simulation: no DOM, no canvas, no wall clock.
  */
-import { DT, SIM } from '../config'
-import { copyCar, createCar, type CarState } from '../car/state'
-import { stepCar } from '../car/physics'
-import { advanceProgress, createProgress, type LapProgress } from '../track/checkpoints'
-import { clampToBounds, distanceToLoop } from '../track/geometry'
-import type { Track } from '../track/types'
+import { DT, SIM } from '../config.ts'
+import { copyCar, createCar, type CarState } from '../car/state.ts'
+import { stepCar } from '../car/physics.ts'
+import { advanceProgress, createProgress, type LapProgress } from '../track/checkpoints.ts'
+import { clampToBounds, distanceToLoop } from '../track/geometry.ts'
+import type { Track } from '../track/types.ts'
 
 export type Phase = 'ready' | 'racing' | 'finished'
 

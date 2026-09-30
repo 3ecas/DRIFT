@@ -1,19 +1,20 @@
-/** Entry point: wires DOM input, storage and rendering to the simulation. */
-import { SIM } from './config'
-import { startLoop } from './core/loop'
-import { attachInput, steerOf } from './core/input'
-import { msUntilNextUtcDay, utcDateSeed } from './core/daily'
-import { advanceStreak, currentStreak, loadStreak, saveStreak } from './core/streak'
-import { generateTrack } from './track/generate'
-import { Session } from './race/session'
-import { runTimeMs } from './race/run'
-import { lerpPose } from './car/state'
-import { loadBest, saveIfBest } from './ghost/storage'
-import type { GhostRun } from './ghost/types'
-import { Scene } from './render/scene'
-import { Hud } from './ui/hud'
-import { Results } from './ui/results'
-import { copyText, shareText } from './ui/share'
+/** Entry point: wires DOM input, storage, network and rendering to the simulation. */
+import { COLORS, SIM } from './config.ts'
+import { startLoop } from './core/loop.ts'
+import { attachInput, steerOf } from './core/input.ts'
+import { msUntilNextUtcDay, utcDateSeed } from './core/daily.ts'
+import { advanceStreak, currentStreak, loadStreak, saveStreak } from './core/streak.ts'
+import { generateTrack } from './track/generate.ts'
+import { Session } from './race/session.ts'
+import { runTimeMs } from './race/run.ts'
+import { lerpPose } from './car/state.ts'
+import { loadBest, saveIfBest } from './ghost/storage.ts'
+import type { GhostRun } from './ghost/types.ts'
+import { Scene } from './render/scene.ts'
+import { Hud } from './ui/hud.ts'
+import { Results } from './ui/results.ts'
+import { copyText, shareText } from './ui/share.ts'
+import { Online } from './online.ts'
 
 const ticksToMs = (ticks: number): number => (ticks * 1000) / SIM.TICK_RATE
 
@@ -25,11 +26,11 @@ const canvas = document.getElementById('game') as HTMLCanvasElement
 const hudRoot = document.getElementById('hud') as HTMLElement
 
 const session = new Session(generateTrack(seed))
-session.ghost = loadBest(seed)
 const scene = new Scene(canvas)
 scene.setTrack(session.track)
 
 let lastResult: GhostRun | null = null
+let localBest = loadBest(seed)
 
 const restart = (): void => {
   // A new UTC day means a new track: reload rather than keep racing yesterday's.
@@ -40,28 +41,40 @@ const restart = (): void => {
 const share = async (): Promise<boolean> => {
   if (!lastResult) return false
   const url = location.origin + location.pathname
-  const best = loadBest(seed) ?? lastResult
+  const best = localBest ?? lastResult
   const streak = currentStreak(loadStreak(), utcDateSeed())
   return copyText(shareText({ seed, timeMs: ticksToMs(lastResult.finishTicks), bestMs: ticksToMs(best.finishTicks), streak, url }))
 }
 const hud = new Hud(hudRoot, restart)
 const results = new Results(hudRoot, restart, share)
 const input = attachInput(canvas, restart)
+const online = new Online(seed, results.element, (ghosts) => syncGhosts(ghosts))
+
+/** The local best in the accent colour, online ghosts in their own colour. */
+const syncGhosts = (onlineGhosts: GhostRun[]): void => {
+  session.ghosts = [
+    ...(localBest ? [{ run: localBest, color: COLORS.ACCENT }] : []),
+    ...onlineGhosts.map((run) => ({ run, color: COLORS.ONLINE_GHOST })),
+  ]
+}
+syncGhosts([])
+void online.loadGhosts()
 
 const onFinish = (recorded: GhostRun): void => {
-  const raced = session.ghost
-  const best = saveIfBest(recorded)
+  const raced = localBest
+  localBest = saveIfBest(recorded)
   const streak = advanceStreak(loadStreak(), utcDateSeed())
   saveStreak(streak)
   lastResult = recorded
   results.show({
     timeMs: ticksToMs(recorded.finishTicks),
-    bestMs: ticksToMs(best.finishTicks),
+    bestMs: ticksToMs(localBest.finishTicks),
     ghostMs: raced ? ticksToMs(raced.finishTicks) : null,
-    isNewBest: best === recorded,
+    isNewBest: localBest === recorded,
     streak: streak.count,
   })
-  session.ghost = best
+  syncGhosts(online.ghosts)
+  void online.submit(recorded)
 }
 
 startLoop({
@@ -72,11 +85,10 @@ startLoop({
   },
   render: (alpha) => {
     const { run } = session
-    const ghost = session.ghostPose(alpha)
     scene.draw({
       car: run.phase === 'racing' ? lerpPose(run.prev, run.car, alpha) : run.car,
       onTrack: run.car.onTrack,
-      ghosts: ghost ? [ghost] : [],
+      ghosts: session.ghostPoses(alpha),
     })
     hud.update({
       timeMs: runTimeMs(run),

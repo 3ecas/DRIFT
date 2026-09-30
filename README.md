@@ -16,6 +16,32 @@ npm run build      # production build in dist/
 
 The track changes every UTC day. Add `?seed=anything` to the URL to practise another one.
 
+### Online leaderboard (optional)
+
+```sh
+cd server && npm install   # dev tooling only; the server itself has no dependencies
+npm start                  # http://localhost:8787, SQLite file in server/data/
+npm test                   # node:test
+```
+
+Needs Node 22.18 or newer (built-in `node:sqlite` and TypeScript type stripping).
+`npm run dev` at the root proxies `/api` to that server. For a deployed game,
+set `VITE_API_URL` at build time (the Pages workflow reads the repository
+variable `API_URL`). Without it the game runs offline with local ghosts only.
+
+Endpoints:
+
+| Method | Path                                       | Purpose                                   |
+| ------ | ------------------------------------------ | ----------------------------------------- |
+| POST   | `/api/runs`                                | submit a run (time + ghost frames)        |
+| GET    | `/api/leaderboard?seed=&player=`           | today's top 10 and the player's own rank  |
+| GET    | `/api/ghosts?seed=&player=&count=`         | ghosts ranked just above the player       |
+
+Players are anonymous: a random id and a nickname kept in localStorage. The
+server keeps one best run per player and day, accepts only today's or
+yesterday's seed, and rejects runs that are physically too fast, have the
+wrong number of ghost frames, or leave the arena.
+
 ## Controls
 
 | Action  | Desktop            | Touch                         |
@@ -77,4 +103,4 @@ cannot change a result.
 1. ✅ Car, one generated track, lap timer.
 2. ✅ Daily seed, local best ghost, instant restart, results screen.
 3. ✅ Streak, share button, countdown, polished touch controls.
-4. Online leaderboard and ghosts (Node + SQLite server in `/server`).
+4. ✅ Online leaderboard and ghosts (Node + SQLite server in `/server`).

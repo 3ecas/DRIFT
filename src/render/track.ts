@@ -1,6 +1,6 @@
 /** Draws the track surface, checkpoint gates and the start line. */
-import { COLORS } from '../config'
-import type { Gate, Track, Vec2 } from '../track/types'
+import { COLORS } from '../config.ts'
+import type { Gate, Track, Vec2 } from '../track/types.ts'
 
 export function drawTrack(ctx: CanvasRenderingContext2D, track: Track): void {
   traceLoop(ctx, track.points)

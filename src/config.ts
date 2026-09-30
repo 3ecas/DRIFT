@@ -73,6 +73,15 @@ export const GHOST = {
   SAMPLE_INTERVAL: 3,
 } as const
 
+export const NET = {
+  /** Give up on a request after this long. */
+  TIMEOUT_MS: 5000,
+  /** Rows shown on the leaderboard. */
+  LEADERBOARD_SIZE: 10,
+  /** Online ghosts fetched: the ones ranked just above the player. */
+  GHOSTS_ABOVE: 2,
+} as const
+
 export const STORAGE = {
   /** localStorage key prefix. */
   PREFIX: 'dgr',
@@ -85,6 +94,8 @@ export const COLORS = {
   GATE: '#2b3542',
   START_LINE: '#e8edf2',
   ACCENT: '#ffb020',
+  /** Ghosts fetched from the leaderboard. */
+  ONLINE_GHOST: '#8fd3ff',
   GHOST_ALPHA: 0.35,
   TEXT: '#e8edf2',
 } as const

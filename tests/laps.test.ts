@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { advanceProgress, buildGates, createProgress } from '../src/track/checkpoints'
-import type { Vec2 } from '../src/track/types'
+import { advanceProgress, buildGates, createProgress } from '../src/track/checkpoints.ts'
+import type { Vec2 } from '../src/track/types.ts'
 
 /** A circle of radius 100 with 4 gates at 0°, 90°, 180° and 270°. */
 const N = 72

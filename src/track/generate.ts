@@ -1,10 +1,10 @@
 /** Deterministic track generation: seed string → Track. */
-import { TRACK } from '../config'
-import { createRng, type Rng } from '../core/rng'
-import { catmullRomLoop, resampleLoop } from './spline'
-import { validateLoop } from './validate'
-import { buildGates } from './checkpoints'
-import type { Bounds, Track, Vec2 } from './types'
+import { TRACK } from '../config.ts'
+import { createRng, type Rng } from '../core/rng.ts'
+import { catmullRomLoop, resampleLoop } from './spline.ts'
+import { validateLoop } from './validate.ts'
+import { buildGates } from './checkpoints.ts'
+import type { Bounds, Track, Vec2 } from './types.ts'
 
 /** The same seed always yields the same track. Throws if no attempt is valid. */
 export function generateTrack(seed: string): Track {
