@@ -37,10 +37,10 @@ export function createRun(track: Track): Run {
   }
 }
 
-/** One fixed simulation step. The timer starts with the first steer input. */
-export function stepRun(run: Run, steer: number): void {
+/** One fixed simulation step. The timer starts with the first steer input. Returns the new phase. */
+export function stepRun(run: Run, steer: number): Phase {
   if (run.phase === 'ready' && steer !== 0) run.phase = 'racing'
-  if (run.phase !== 'racing') return
+  if (run.phase !== 'racing') return run.phase
 
   copyCar(run.car, run.prev)
   const onTrack = distanceToLoop(run.car, run.track.points) <= run.track.width / 2
@@ -54,6 +54,7 @@ export function stepRun(run: Run, steer: number): void {
     // The line was crossed part-way through this tick.
     run.finishTicks = run.ticks - 1 + crossing.t
   }
+  return run.phase
 }
 
 /** Elapsed time in milliseconds, derived from simulation ticks only. */

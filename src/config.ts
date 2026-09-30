@@ -73,6 +73,11 @@ export const GHOST = {
   SAMPLE_INTERVAL: 3,
 } as const
 
+export const STORAGE = {
+  /** localStorage key prefix. */
+  PREFIX: 'dgr',
+} as const
+
 export const COLORS = {
   BACKGROUND: '#0b0e13',
   TRACK: '#1b2129',

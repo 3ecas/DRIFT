@@ -81,3 +81,47 @@ html, body {
 }
 
 .hud-restart:active { background: var(--accent); color: var(--bg); }
+
+.results {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 240px;
+  padding: 24px 32px;
+  text-align: center;
+  background: rgba(11, 14, 19, 0.88);
+  border: 1px solid rgba(232, 237, 242, 0.2);
+  border-radius: 12px;
+  pointer-events: auto;
+}
+
+.results[hidden] { display: none; }
+
+.results-title { font-size: 13px; letter-spacing: 0.25em; opacity: 0.6; }
+
+.results-time {
+  margin-top: 8px;
+  font-size: clamp(36px, 8vw, 56px);
+  font-variant-numeric: tabular-nums;
+  color: var(--accent);
+}
+
+.results-delta { margin-top: 4px; font-size: 16px; opacity: 0.85; }
+.results-delta.faster { color: #5ee0a0; }
+
+.results-best { margin-top: 6px; font-size: 14px; opacity: 0.6; }
+
+.results-again {
+  margin-top: 20px;
+  padding: 12px 24px;
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--accent);
+  font: 15px var(--font);
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.results-again:active { background: var(--accent); color: var(--bg); }
