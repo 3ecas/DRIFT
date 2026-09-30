@@ -23,6 +23,10 @@ The track changes every UTC day. Add `?seed=anything` to the URL to practise ano
 | Steer   | ← → or A / D       | touch left / right half       |
 | Restart | R                  | ↻ button                      |
 
+A finished run counts towards your daily streak. The results screen has a
+share button that copies a short text result and shows the countdown to the
+next track (UTC midnight).
+
 The car accelerates by itself. The timer starts on your first steer input.
 
 ## File structure
@@ -35,7 +39,9 @@ src/style.css           page and HUD styles
 src/core/rng.ts         string hash + seeded PRNG (integer maths, engine independent)
 src/core/loop.ts        fixed-timestep accumulator loop
 src/core/input.ts       keyboard + touch → steer state, restart event
-src/core/daily.ts       UTC date → daily seed
+src/core/daily.ts       UTC date → daily seed, countdown to the next day
+src/core/storage.ts     safe JSON read/write over localStorage
+src/core/streak.ts      daily streak logic and storage
 src/track/types.ts      Vec2, Gate, Track
 src/track/geometry.ts   vector helpers, point-to-loop distance, segment crossing
 src/track/spline.ts     closed Catmull-Rom sampling and arc-length re-sampling
@@ -55,8 +61,9 @@ src/render/track.ts     track, gates, start line
 src/render/car.ts       car / ghost arrow
 src/render/scene.ts     canvas setup and frame drawing
 src/ui/format.ts        time formatting
-src/ui/hud.ts           DOM overlay: timer, lap, hint, restart button
-src/ui/results.ts       end-of-run overlay: time, best today, gap to ghost
+src/ui/hud.ts           DOM overlay: timer, lap, hint, restart button, touch zones
+src/ui/results.ts       end-of-run overlay: time, gap, best, streak, share, countdown
+src/ui/share.ts         share text and clipboard copy
 src/net/                (milestone 4) API client
 tests/                  vitest unit tests
 ```
@@ -69,5 +76,5 @@ cannot change a result.
 
 1. ✅ Car, one generated track, lap timer.
 2. ✅ Daily seed, local best ghost, instant restart, results screen.
-3. Streak, share button, countdown, polished touch controls.
+3. ✅ Streak, share button, countdown, polished touch controls.
 4. Online leaderboard and ghosts (Node + SQLite server in `/server`).

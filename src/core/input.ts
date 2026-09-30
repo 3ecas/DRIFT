@@ -42,11 +42,13 @@ export function attachInput(surface: HTMLElement, onRestart: () => void): InputS
   }
   window.addEventListener('keydown', (e) => onKey(e, true))
   window.addEventListener('keyup', (e) => onKey(e, false))
-  window.addEventListener('blur', () => {
+  const releaseAll = (): void => {
     keys.left = keys.right = false
     pointers.clear()
     sync()
-  })
+  }
+  window.addEventListener('blur', releaseAll)
+  document.addEventListener('visibilitychange', () => document.hidden && releaseAll())
 
   surface.addEventListener('pointerdown', (e) => {
     e.preventDefault()

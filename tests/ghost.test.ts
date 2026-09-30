@@ -1,21 +1,14 @@
 import { describe, expect, it } from 'vitest'
-import { utcDateSeed } from '../src/core/daily'
 import { GhostRecorder } from '../src/ghost/recorder'
 import { ghostPose } from '../src/ghost/playback'
-import { loadBest, saveIfBest, type KeyValueStore } from '../src/ghost/storage'
+import { loadBest, saveIfBest } from '../src/ghost/storage'
+import type { KeyValueStore } from '../src/core/storage'
 import type { GhostRun } from '../src/ghost/types'
 
 const fakeStore = (): KeyValueStore => {
   const map = new Map<string, string>()
   return { getItem: (k) => map.get(k) ?? null, setItem: (k, v) => void map.set(k, v) }
 }
-
-describe('daily seed', () => {
-  it('is the UTC date', () => {
-    expect(utcDateSeed(Date.UTC(2026, 8, 30, 23, 59))).toBe('2026-09-30')
-    expect(utcDateSeed(Date.UTC(2026, 9, 1, 0, 0))).toBe('2026-10-01')
-  })
-})
 
 describe('ghost recording and playback', () => {
   const record = (): GhostRun => {
